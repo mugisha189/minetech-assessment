@@ -1,38 +1,29 @@
-import React, { useState } from 'react';
-import type { ChatMessage } from '../../types';
+'use client';
 
-interface Props {
-  message: ChatMessage;
-}
+import { useState } from 'react';
+import type { ChatMessage } from '@/types';
 
-export function MessageBubble({ message }: Props) {
+export function MessageBubble({ message }: { message: ChatMessage }) {
   const [showCitations, setShowCitations] = useState(false);
   const isUser = message.role === 'user';
 
   return (
     <div className={`flex ${isUser ? 'justify-end' : 'justify-start'}`}>
-      <div className={`max-w-[85%] space-y-1.5 ${isUser ? 'items-end' : 'items-start'} flex flex-col`}>
-        {/* Bubble */}
-        <div
-          className={`rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap ${
-            isUser
-              ? 'bg-brand-600 text-white rounded-br-sm'
-              : message.in_knowledge_base === false
-              ? 'bg-amber-50 border border-amber-200 text-gray-800 rounded-bl-sm'
-              : 'bg-white border border-gray-200 text-gray-800 rounded-bl-sm shadow-sm'
-          }`}
-        >
+      <div className={`max-w-[85%] space-y-1.5 flex flex-col ${isUser ? 'items-end' : 'items-start'}`}>
+        <div className={`rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap ${
+          isUser
+            ? 'bg-brand-600 text-white rounded-br-sm'
+            : message.inKnowledgeBase === false
+            ? 'bg-amber-50 border border-amber-200 text-gray-800 rounded-bl-sm'
+            : 'bg-white border border-gray-200 text-gray-800 rounded-bl-sm shadow-sm'
+        }`}>
           {message.content}
         </div>
 
-        {/* Out-of-KB indicator */}
-        {!isUser && message.in_knowledge_base === false && (
-          <span className="text-xs text-amber-600 font-medium px-1">
-            ⚠ Not in knowledge base
-          </span>
+        {!isUser && message.inKnowledgeBase === false && (
+          <span className="text-xs text-amber-600 font-medium px-1">⚠ Not in knowledge base</span>
         )}
 
-        {/* Citations toggle */}
         {!isUser && message.citations?.length > 0 && (
           <div className="w-full">
             <button

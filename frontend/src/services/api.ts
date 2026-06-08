@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { Ticket, TicketListResponse, ChatResponse, ChatMessage, Document } from '../types';
+import type { Ticket, TicketListResponse, ChatResponse, ChatMessage, KnowledgeDocument } from '@/types';
 
 const api = axios.create({ baseURL: '/api' });
 
@@ -26,8 +26,8 @@ export async function fetchTickets(params?: {
 /*  Knowledge base                                                      */
 /* ------------------------------------------------------------------ */
 
-export async function fetchDocuments(): Promise<Document[]> {
-  const { data } = await api.get<Document[]>('/knowledge');
+export async function fetchDocuments(): Promise<KnowledgeDocument[]> {
+  const { data } = await api.get<KnowledgeDocument[]>('/knowledge');
   return data;
 }
 

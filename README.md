@@ -27,9 +27,10 @@ All state is in-memory — no database required.
 | **LLM serving** | [Ollama](https://ollama.com) — local inference, zero cost |
 | **Generation model** | `llama3.2` (3B, Q4_K_M) |
 | **Embedding model** | `nomic-embed-text` (768-dim) |
-| **Frontend** | Vite + React + TypeScript + Tailwind CSS |
+| **Frontend** | Next.js 15 (App Router) + TypeScript + Tailwind CSS |
 | **Backend** | NestJS + TypeScript |
 | **Vector search** | Cosine similarity in TypeScript (no DB needed) |
+| **Routing** | Next.js App Router (file-based, SSR-ready) |
 
 ---
 
@@ -68,10 +69,10 @@ pnpm run start:dev
 cd frontend
 pnpm install
 pnpm run dev
-# → http://localhost:5173
+# → http://localhost:3000
 ```
 
-Open **http://localhost:5173** — you're done.
+Open **http://localhost:3000** — you're done.
 
 ---
 

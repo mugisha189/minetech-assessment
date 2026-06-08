@@ -34,7 +34,7 @@ export interface ChatMessage {
   role: 'user' | 'assistant';
   content: string;
   citations: Citation[];
-  in_knowledge_base: boolean;
+  inKnowledgeBase: boolean;
   created_at: string;
 }
 
@@ -46,7 +46,7 @@ export interface ChatResponse {
   inKnowledgeBase: boolean;
 }
 
-export interface Document {
+export interface KnowledgeDocument {
   id: string;
   title: string;
   source: string | null;

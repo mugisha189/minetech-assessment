@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
-import { Spinner } from '../ui/Spinner';
+'use client';
 
-const SAMPLE_TICKETS = [
+import { useState } from 'react';
+import { Spinner } from '@/components/ui/Spinner';
+
+const SAMPLES = [
   `Hi, I've been trying to log in for the past hour and keep getting "Invalid credentials" even though I just reset my password 20 minutes ago. This is blocking me from accessing critical reports before our board meeting at 2pm today. URGENT.`,
   `I think there might be a bug in the export function. When I export to CSV the dates are formatted as MM/DD/YYYY but our system expects DD/MM/YYYY. Not a big deal but would be nice to have a setting for it.`,
-  `I was charged twice this month — $49 appeared on my statement on June 1st and again on June 3rd. My plan is the Starter plan. Please refund the duplicate charge. Account email: [redacted]`,
+  `I was charged twice this month — $49 appeared on my statement on June 1st and again on June 3rd. My plan is the Starter plan. Please refund the duplicate charge.`,
   `Would love to see a dark mode option in the dashboard! Eye strain is real after long sessions.`,
 ];
 
@@ -35,20 +37,16 @@ export function TicketForm({ onSubmit, loading }: Props) {
           disabled={loading}
         />
         <button type="submit" className="btn-primary w-full" disabled={loading || !text.trim()}>
-          {loading ? (
-            <span className="flex items-center gap-2">
-              <Spinner size="sm" /> Analysing…
-            </span>
-          ) : (
-            'Triage with AI'
-          )}
+          {loading
+            ? <span className="flex items-center gap-2"><Spinner size="sm" /> Analysing…</span>
+            : 'Triage with AI'}
         </button>
       </form>
 
       <div>
         <p className="text-xs text-gray-500 mb-2 font-medium">Try a sample:</p>
         <div className="space-y-1">
-          {SAMPLE_TICKETS.map((s, i) => (
+          {SAMPLES.map((s, i) => (
             <button
               key={i}
               onClick={() => setText(s)}

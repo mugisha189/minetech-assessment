@@ -3,9 +3,12 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev:backend": "pnpm --filter backend run start:dev",
-    "dev:frontend": "pnpm --filter frontend run dev",
-    "build": "pnpm --filter backend run build && pnpm --filter frontend run build",
+    "dev:backend": "pnpm --filter minestech-assessment-backend run start:dev",
+    "dev:frontend": "pnpm --filter minestech-assessment-frontend run dev",
+    "build": "pnpm --filter minestech-assessment-backend run build && pnpm --filter minestech-assessment-frontend run build",
     "seed": "node scripts/seed-knowledge.js"
+  },
+  "devDependencies": {
+    "docx": "^9.7.1"
   }
 }

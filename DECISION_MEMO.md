@@ -50,11 +50,12 @@ The spec did not define what fields a triaged ticket should contain. I chose:
 | `suggested_reply` | Draft reply so agents can respond faster; explicitly framed as a draft, not auto-sent. |
 | `confidence` | Float 0–1. Low-confidence tickets (< 0.5) are visually flagged in the dashboard. |
 
-**Graceful degradation:** The parser tries three strategies in order — direct
-`JSON.parse`, regex extraction of the first `{...}` block, and markdown fence
-stripping. If all three fail, the ticket is saved with a `parse_error` field
-containing the raw output and safe fallback values for all classification fields.
-No ticket is silently lost.
+**Graceful degradation:** The parser tries four strategies in order — direct
+`JSON.parse`, regex extraction of the first `{...}` block, markdown fence
+stripping, and truncation repair (removes a trailing comma and appends the missing
+closing brace for responses cut short by the token limit). If all four fail, the
+ticket is saved with a `parse_error` field containing the raw output and safe
+fallback values for all classification fields. No ticket is silently lost.
 
 ---
 

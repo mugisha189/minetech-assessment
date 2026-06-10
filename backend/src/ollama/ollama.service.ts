@@ -19,7 +19,7 @@ export class OllamaService {
       const response = await fetch(`${this.baseUrl}/api/generate`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ model: targetModel, prompt, stream: false }),
+        body: JSON.stringify({ model: targetModel, prompt, stream: false, options: { num_predict: 2048 } }),
       });
       if (!response.ok) {
         throw new Error(`Ollama responded ${response.status}: ${await response.text()}`);

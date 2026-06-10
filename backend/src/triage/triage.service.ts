@@ -66,17 +66,36 @@ Rules:
 /*  JSON extraction — resilient to malformed model output              */
 /* ------------------------------------------------------------------ */
 
+function repairTruncated(s: string): string {
+  // Remove trailing comma left by a truncated last field, then close the object
+  return s.replace(/,\s*$/, '') + '}';
+}
+
 function extractJson(raw: string): Record<string, any> | null {
-  try { return JSON.parse(raw.trim()); } catch { /* continue */ }
+  const attempts = [
+    () => JSON.parse(raw.trim()),
+    () => {
+      const m = raw.match(/\{[\s\S]*\}/);
+      return m ? JSON.parse(m[0]) : null;
+    },
+    () => {
+      const stripped = raw.replace(/```(?:json)?/gi, '').replace(/```/g, '').trim();
+      return JSON.parse(stripped);
+    },
+    () => {
+      // Handle truncated JSON: find the opening brace, take everything, repair and close
+      const start = raw.indexOf('{');
+      if (start === -1) return null;
+      return JSON.parse(repairTruncated(raw.slice(start)));
+    },
+  ];
 
-  const match = raw.match(/\{[\s\S]*\}/);
-  if (match) {
-    try { return JSON.parse(match[0]); } catch { /* continue */ }
+  for (const attempt of attempts) {
+    try {
+      const result = attempt();
+      if (result !== null) return result;
+    } catch { /* try next */ }
   }
-
-  const stripped = raw.replace(/```(?:json)?/gi, '').replace(/```/g, '').trim();
-  try { return JSON.parse(stripped); } catch { /* continue */ }
-
   return null;
 }
 

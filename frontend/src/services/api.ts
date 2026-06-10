@@ -31,12 +31,18 @@ export async function fetchDocuments(): Promise<KnowledgeDocument[]> {
   return data;
 }
 
-export async function addDocument(doc: {
-  title: string;
-  content: string;
-  source?: string;
-}): Promise<{ id: string; chunkCount: number }> {
-  const { data } = await api.post('/knowledge', doc);
+export async function uploadDocument(
+  file: File,
+  title?: string,
+  source?: string,
+): Promise<{ id: string; chunkCount: number }> {
+  const form = new FormData();
+  form.append('file', file);
+  if (title) form.append('title', title);
+  if (source) form.append('source', source);
+  const { data } = await api.post('/knowledge/upload', form, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
   return data;
 }
 
